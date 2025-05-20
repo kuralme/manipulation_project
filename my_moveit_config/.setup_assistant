@@ -3,7 +3,7 @@ moveit_setup_assistant_config:
     package: ur_description
     relative_path: urdf/ur.urdf.xacro
   srdf:
-    relative_path: config/name.srdf
+    relative_path: config/ur3e_sim.srdf
   package_settings:
     author_name: EgeK
     author_email: kuralme@protonmail.com
