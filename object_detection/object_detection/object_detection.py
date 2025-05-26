@@ -143,8 +143,8 @@ class ObjectDetection(Node):
         # Extract points belonging to the plane
         plane_cloud = cloud.extract(indices)
 
-        self.get_logger().info(f"Number of inliers: {len(indices)}")
-        self.get_logger().info(f"Plane coefficients: {coefficients}")
+        # self.get_logger().info(f"Number of inliers: {len(indices)}")
+        # self.get_logger().info(f"Plane coefficients: {coefficients}")
         return indices, coefficients, plane_cloud
 
     def extract_clusters(self, cloud: pcl.PointCloud, cluster_type: str) -> Tuple[List[pcl.PointCloud], List[List[float]], List[List[float]]]:
@@ -166,7 +166,7 @@ class ObjectDetection(Node):
 
         # Process each cluster
         for idx, indices in enumerate(cluster_indices):
-            self.get_logger().info(f"Processing {cluster_type} cluster {idx + 1}...")
+            # self.get_logger().info(f"Processing {cluster_type} cluster {idx + 1}...")
 
             # Extract points belonging to the cluster
             cluster = cloud.extract(indices)
@@ -185,10 +185,10 @@ class ObjectDetection(Node):
             cluster_dimensions.append(dimensions.tolist())
 
             # Log cluster information
-            num_points = len(indices)
-            self.get_logger().info(f"{cluster_type} cluster {idx + 1} has {num_points} points.")
-            self.get_logger().info(f"Centroid of {cluster_type} cluster {idx + 1}: {centroid}")
-            self.get_logger().info(f"Dimensions of {cluster_type} cluster {idx + 1}: {dimensions}")
+            # num_points = len(indices)
+            # self.get_logger().info(f"{cluster_type} cluster {idx + 1} has {num_points} points.")
+            # self.get_logger().info(f"Centroid of {cluster_type} cluster {idx + 1}: {centroid}")
+            # self.get_logger().info(f"Dimensions of {cluster_type} cluster {idx + 1}: {dimensions}")
 
         # Check if any clusters have been extracted
         if not table_clusters:
@@ -227,7 +227,7 @@ class ObjectDetection(Node):
             marker_array.markers.append(cube_marker)
 
         if marker_array.markers:
-            self.get_logger().info(f"Published {len(marker_array.markers)} table plane markers")
+            # self.get_logger().info(f"Published {len(marker_array.markers)} table plane markers")
             self.table_marker_pub.publish(marker_array)
         else:
             self.get_logger().warning("No table plane markers to publish.")
@@ -271,7 +271,7 @@ class ObjectDetection(Node):
             marker_array.markers.append(marker)
 
         if marker_array.markers:
-            self.get_logger().info(f"Published {len(marker_array.markers)} objects on flat surface markers!")
+            # self.get_logger().info(f"Published {len(marker_array.markers)} objects on flat surface markers!")
             self.objects_marker_pub.publish(marker_array)
         else:
             self.get_logger().warning("No objects on flat surface markers to publish.")

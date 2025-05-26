@@ -13,6 +13,7 @@ find_package(moveit_core REQUIRED)
 find_package(moveit_ros_planning REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
 find_package(moveit_msgs REQUIRED)
+find_package(custom_msgs REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -30,8 +31,14 @@ add_executable(pick_and_place_node src/pick_and_place.cpp)
 target_include_directories(pick_and_place_node PUBLIC include)
 ament_target_dependencies(pick_and_place_node ament_cmake rclcpp rclcpp_action moveit_core moveit_ros_planning moveit_ros_planning_interface moveit_msgs)
 
+add_executable(pick_and_place_perception_node src/pick_and_place_perception.cpp)
+target_include_directories(pick_and_place_perception_node PUBLIC include)
+ament_target_dependencies(pick_and_place_perception_node ament_cmake rclcpp rclcpp_action moveit_core moveit_ros_planning moveit_ros_planning_interface moveit_msgs custom_msgs)
+
+
 install(TARGETS 
 	pick_and_place_node
+	pick_and_place_perception_node
     DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY 
