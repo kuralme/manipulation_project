@@ -10,27 +10,27 @@ from moveit_configs_utils import MoveItConfigsBuilder
 
 
 def generate_launch_description() -> LaunchDescription:
-    moveit_config_sim = MoveItConfigsBuilder("ur3e_sim", package_name="my_moveit_config").to_moveit_configs()
+    moveit_config_real = MoveItConfigsBuilder("ur3e_real", package_name="real_moveit_config").to_moveit_configs()
 
     use_real_robot = LaunchConfiguration('use_real_robot')
     declare_use_real_robot = DeclareLaunchArgument(
         'use_real_robot',
-        default_value='False',
+        default_value='True',
         description='Use real robot settings if True, simulation if False',
     )
-    load_nodes_sim = GroupAction(
-        condition=IfCondition(PythonExpression(['not ', use_real_robot])),
+    load_nodes_real = GroupAction(
+        condition=IfCondition(use_real_robot),
         actions=[
             Node(
-                name="pick_and_place_perception_node",
+                name="pick_and_place_perception_real_node",
                 package="moveit2_scripts",
-                executable="pick_and_place_perception_node",
+                executable="pick_and_place_perception_real_node",
                 output="screen",
                 parameters=[
-                    moveit_config_sim.robot_description,
-                    moveit_config_sim.robot_description_semantic,
-                    moveit_config_sim.robot_description_kinematics,
-                    {'use_sim_time': True},
+                    moveit_config_real.robot_description,
+                    moveit_config_real.robot_description_semantic,
+                    moveit_config_real.robot_description_kinematics,
+                    {'use_sim_time': False},
                 ],
             )
         ],
@@ -41,7 +41,7 @@ def generate_launch_description() -> LaunchDescription:
             os.path.join(
                 get_package_share_directory('object_detection'),
                 'launch',
-                'object_detection.launch.py'
+                'object_detection_real.launch.py'
             )
         )
     )
@@ -49,5 +49,5 @@ def generate_launch_description() -> LaunchDescription:
     ld = LaunchDescription()
     ld.add_action(object_detection_launch)
     ld.add_action(declare_use_real_robot)
-    ld.add_action(load_nodes_sim)
+    ld.add_action(load_nodes_real)
     return ld

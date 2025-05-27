@@ -35,10 +35,15 @@ add_executable(pick_and_place_perception_node src/pick_and_place_perception.cpp)
 target_include_directories(pick_and_place_perception_node PUBLIC include)
 ament_target_dependencies(pick_and_place_perception_node ament_cmake rclcpp rclcpp_action moveit_core moveit_ros_planning moveit_ros_planning_interface moveit_msgs custom_msgs)
 
+add_executable(pick_and_place_perception_real_node src/pick_and_place_perception_real.cpp)
+target_include_directories(pick_and_place_perception_real_node PUBLIC include)
+ament_target_dependencies(pick_and_place_perception_real_node ament_cmake rclcpp rclcpp_action moveit_core moveit_ros_planning moveit_ros_planning_interface moveit_msgs custom_msgs)
+
 
 install(TARGETS 
 	pick_and_place_node
 	pick_and_place_perception_node
+	pick_and_place_perception_real_node
     DESTINATION lib/${PROJECT_NAME}
 )
 install(DIRECTORY 
