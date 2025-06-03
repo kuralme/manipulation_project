@@ -139,14 +139,15 @@ public:
     execute_trajectory_cartesian();
 
     // Close the gripper and pick the box
-    RCLCPP_INFO(LOGGER, "Closing Gripper...");
-    RCLCPP_INFO(LOGGER, "Preparing Gripper Value...");
-    setup_gripper_named_pose("gripper_close");
-    RCLCPP_INFO(LOGGER, "Planning Gripper Action...");
-    plan_trajectory_gripper();
-    RCLCPP_INFO(LOGGER, "Executing Gripper Action...");
-    execute_trajectory_gripper();
-    RCLCPP_INFO(LOGGER, "Gripper Closed");
+    // RCLCPP_INFO(LOGGER, "Closing Gripper...");
+    // RCLCPP_INFO(LOGGER, "Preparing Gripper Value...");
+    // setup_gripper_named_pose("gripper_close");
+    // RCLCPP_INFO(LOGGER, "Planning Gripper Action...");
+    // plan_trajectory_gripper();
+    // RCLCPP_INFO(LOGGER, "Executing Gripper Action...");
+    // execute_trajectory_gripper();
+    // RCLCPP_INFO(LOGGER, "Gripper Closed");
+    closeGripper();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
@@ -286,6 +287,36 @@ private:
     // based on values provided
     joint_group_positions_gripper_[2] = angle;
     move_group_gripper_->setJointValueTarget(joint_group_positions_gripper_);
+  }
+
+  // Method to close the gripper gradually by incrementing the gripper joint
+  // position
+  void closeGripper() {
+    float gripper_value = 0.6;
+    while (gripper_value <= 0.645) {
+      joint_group_positions_gripper_[2] = gripper_value;
+      move_group_gripper_->setJointValueTarget(joint_group_positions_gripper_);
+      RCLCPP_INFO(LOGGER, "Closing gripper: %.3f.", gripper_value);
+      if (executeGripperPlan()) {
+        if (gripper_value < 0.620)
+          gripper_value += 0.01;
+        else if (gripper_value < 0.640)
+          gripper_value += 0.005;
+        else
+          gripper_value += 0.001;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+      } else {
+        RCLCPP_ERROR(LOGGER, "Failed to close gripper. Aborting.");
+        rclcpp::shutdown();
+      }
+    }
+  }
+  // Method to execute the motion plan for the gripper
+  bool executeGripperPlan() {
+    return move_group_gripper_->plan(gripper_trajectory_plan_) ==
+               moveit::core::MoveItErrorCode::SUCCESS &&
+           move_group_robot_->execute(gripper_trajectory_plan_) ==
+               moveit::core::MoveItErrorCode::SUCCESS;
   }
 
   void setup_gripper_named_pose(std::string pose_name) {
