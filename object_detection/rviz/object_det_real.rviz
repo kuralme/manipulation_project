@@ -138,14 +138,13 @@ Visualization Manager:
                                   {}
                         ft_frame:
                           {}
-          camera_depth_optical_frame:
-            {}
           camera_link:
             camera_color_frame:
               camera_color_optical_frame:
                 {}
             camera_depth_frame:
-              {}
+              camera_depth_optical_frame:
+                {}
         world:
           {}
       Update Interval: 0
@@ -391,9 +390,9 @@ Visualization Manager:
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.3162952661514282
-        Y: 0.6949301362037659
-        Z: -0.35866183042526245
+        X: -0.22179004549980164
+        Y: 0.7826660871505737
+        Z: -0.3376675546169281
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -402,7 +401,7 @@ Visualization Manager:
       Pitch: 0.5397966504096985
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.373585224151611
+      Yaw: 5.318584442138672
     Saved: ~
 Window Geometry:
   Displays:

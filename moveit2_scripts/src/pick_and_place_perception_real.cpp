@@ -92,8 +92,9 @@ public:
       RCLCPP_WARN(LOGGER, "Object Pose not received yet!");
       std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
-    float objX = this->obj_pose_.position.x + obj_width_ * 2;
-    float objY = this->obj_pose_.position.y - obj_thickness_ / 4.;
+    float objX = this->obj_pose_.position.x + obj_width_ - 0.001;
+    float objY = this->obj_pose_.position.y;
+    // float objY = this->obj_pose_.position.y + obj_thickness_;
     float objZ = this->obj_pose_.position.z;
 
     RCLCPP_INFO(LOGGER, "Planning and Executing Pick And Place...");
