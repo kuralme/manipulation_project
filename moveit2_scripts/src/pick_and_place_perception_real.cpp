@@ -166,9 +166,9 @@ public:
                                                   joint_group_positions_robot_);
     RCLCPP_INFO(LOGGER, "Preparing Joint Value Trajectory...");
     setup_joint_value_target(
-        M_PI, joint_group_positions_robot_[1], joint_group_positions_robot_[2],
-        joint_group_positions_robot_[3], joint_group_positions_robot_[4],
-        joint_group_positions_robot_[5]);
+        M_PI * 0.8, joint_group_positions_robot_[1],
+        joint_group_positions_robot_[2], joint_group_positions_robot_[3],
+        joint_group_positions_robot_[4], joint_group_positions_robot_[5]);
     RCLCPP_INFO(LOGGER, "Planning Joint Value Trajectory...");
     plan_trajectory_kinematics();
     RCLCPP_INFO(LOGGER, "Executing Joint Value Trajectory...");
