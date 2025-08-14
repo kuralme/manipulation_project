@@ -49,25 +49,39 @@ It is designed for ROS 2 and provides modular launch files to run the full pipel
 
 ## Running the Pick & Place Task
 
+### Test the Setup
+
+Before running the main Pick and Place task, ensure your environment is correctly configured. Whether you're using **Gazebo simulation** or a **real UR3e robot**, follow these checks after launching the robot's control node (Gazebo or hardware interface).
+
+- Check Active Controllers
+
+    Make sure all required controllers are running:
+
+    ```bash
+    ros2 control list_controllers
+    ```
+    **Expected output:**
+    ```
+    joint_trajectory_controller[joint_trajectory_controller/JointTrajectoryController] active
+    joint_state_broadcaster[joint_state_broadcaster/JointStateBroadcaster] active
+    gripper_controller[position_controllers/GripperActionController] active
+    ```
+
+- Verify that joint state messages are being published:
+    ```bash
+    ros2 topic echo /joint_states
+    ```
+    You should see a stream of messages showing joint positions, velocities, etc.
+
+- Ensure your camera is publishing expected topics:
+    ```bash
+    ros2 topic list | grep camera
+    ```
+    This should return a list of camera-related topics (e.g., /camera/color/image_raw, /camera/depth/points, etc.).
+
 ### Simulation
 
-Check if the controllers running before launching nodes
-```bash
-ros2 control list_controllers
-```
-**Expected output:**
-```
-joint_trajectory_controller[joint_trajectory_controller/JointTrajectoryController] active
-joint_state_broadcaster[joint_state_broadcaster/JointStateBroadcaster] active
-gripper_controller  [position_controllers/GripperActionController] active
-```
-
-Also check robot joint states
-```bash
-ros2 topic echo /joint_states
-```
-
-If all set, run these commands in seperate terminals.
+Run these commands in seperate terminals.
 
 - Launch the MoveIt2 planning node:
     ```bash
@@ -86,28 +100,7 @@ If all set, run these commands in seperate terminals.
 
 ### Real Robot
 
-Check if the controllers running before launching nodes
-```bash
-ros2 control list_controllers
-```
-**Expected output:**
-```
-joint_trajectory_controller[joint_trajectory_controller/JointTrajectoryController] active
-joint_state_broadcaster[joint_state_broadcaster/JointStateBroadcaster] active
-gripper_controller  [position_controllers/GripperActionController] active
-```
-
-Check robot joint states
-```bash
-ros2 topic echo /joint_states
-```
-
-Check that you can see the camera topics
-```bash
-ros2 topic list | grep camera
-```
-
-If all set, run these commands in seperate terminals.
+Run these commands in seperate terminals.
 
 - Launch the MoveIt2 planning node:
     ```bash
